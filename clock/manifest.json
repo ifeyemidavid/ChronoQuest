@@ -1,0 +1,21 @@
+{
+  "name": "ChronoQuest",
+  "short_name": "ChronoQuest",
+  "description": "ChronoQuest — Master your time with alarms, timer, stopwatch & gamified focus.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f2027",
+  "theme_color": "#0f2027",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
