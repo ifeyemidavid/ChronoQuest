@@ -27,7 +27,7 @@
 
     <main>
       <!-- Welcome / Introduction Section -->
-<section id="welcome" class="page active">
+<section id="welcome" class="page">
   <div class="card" style="text-align:center; padding:24px;">
     <h2>Welcome to ChronoQuest 🎮</h2>
     <p class="small" style="margin-top:12px;">
@@ -118,7 +118,7 @@
 
       <section class="content">
         <!-- HOME -->
-        <article id="home" class="page active">
+        <article id="home" class="page">
           <div class="card home-hero">
             <div class="hero-left" style="min-width:260px">
               <h2 class="hero-title">ChronoQuest 🎮</h2>
@@ -300,6 +300,15 @@
   <audio id="audio-reward" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
   <script src="index.js"></script>
 <script>
+
+  function activatePage(id) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show the page with the given ID
+  const page = document.getElementById(id);
+  if (page) page.classList.add('active');
+}
+
 // ---------- Welcome Section for First-Time Users ----------
 const WELCOME_KEY = 'chronoquest:seenWelcome';
 const welcomeSection = document.getElementById('welcome');

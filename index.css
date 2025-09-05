@@ -9,6 +9,18 @@
   --surface:#ffffff; --muted:#465560; --text:#0b1220;
 }
 
+#welcome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  z-index: 10;
+  overflow-y: auto;
+}
+
+
 /* ---------- LAYOUT ---------- */
 * { box-sizing:border-box }
 html,body {
