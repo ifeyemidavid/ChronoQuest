@@ -6,95 +6,13 @@
   <title>ChronoQuest — Master Your Time</title>
   <meta name="theme-color" content="#0f2027">
   <link rel="manifest" href="manifest.json">
-  <style>
-    /* ---------- VARIABLES ---------- */
-    :root{
-      --bg:#0f2027; --bg2:#203a43; --accent:#00e5ff; --card: rgba(255,255,255,0.06);
-      --surface:#0d1114; --muted:#b7c1c5; --text:#e9f8fb;
-      --radius:14px;
-    }
-    [data-theme="light"]{
-      --bg:#f3f8fb; --bg2:#e8f3f7; --accent:#0066cc; --card: rgba(0,0,0,0.05);
-      --surface:#ffffff; --muted:#465560; --text:#0b1220;
-    }
-
-    /* ---------- LAYOUT ---------- */
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(120deg,var(--bg2),var(--bg));color:var(--text);}
-    .app {min-height:100vh; display:flex; flex-direction:column;}
-    header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(180deg, rgba(255,255,255,.03), transparent);backdrop-filter: blur(6px);}
-    .brand {display:flex;gap:12px;align-items:center}
-    .brand .logo {width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#22ffd8);box-shadow:0 6px 22px rgba(0,0,0,.25)}
-    .brand h1{font-size:18px;margin:0}
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
-    .header-actions {display:flex;gap:8px;align-items:center}
-
-    main {flex:1;display:flex;position:relative;overflow:hidden}
-    /* Sidebar */
-    .sidebar-toggle {appearance:none;border:none;background:transparent;color:var(--text);font-size:20px;padding:8px;cursor:pointer}
-    .overlay {position:fixed;inset:0;background:rgba(0,0,0,0.4);opacity:0;pointer-events:none;transition:opacity .18s}
-    .sidebar {position:fixed;left:-320px;top:0;bottom:0;width:320px;background:var(--surface);box-shadow:0 20px 50px rgba(0,0,0,.5);padding:18px;transition:left .22s;z-index:60;border-top-right-radius:16px;border-bottom-right-radius:16px}
-    .sidebar.open{left:0}
-    .overlay.show{opacity:1;pointer-events:auto}
-    .nav {display:flex;flex-direction:column;gap:10px;margin-top:8px}
-    .nav button {display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;border:none;background:transparent;color:var(--text);cursor:pointer;text-align:left;font-weight:600}
-    .nav button .icon {width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,0.03)}
-    .nav button.active {background:linear-gradient(90deg, rgba(0,0,0,0.08), rgba(255,255,255,0.02))}
-    .nav small{color:var(--muted);display:block;margin-top:8px;font-weight:600}
-
-    /* Content area */
-    .content {flex:1;padding:20px;display:flex;align-items:center;justify-content:center}
-    .page {width:min(980px,100%);max-width:980px;display:none;animation:fade .18s ease}
-    .page.active{display:block}
-    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-    .card {background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:0 10px 38px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.03)}
-    .grid {display:grid;gap:14px}
-    .row {display:flex;gap:10px;align-items:center}
-
-    /* Home */
-    .home-hero{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .hero-left{flex:1}
-    .hero-title{font-size:clamp(20px,3.6vw,34px);margin:0}
-    .hero-sub{color:var(--muted);margin-top:6px;font-weight:600}
-    .home-actions {display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .btn {padding:10px 14px;border-radius:10px;border:none;cursor:pointer;background:rgba(255,255,255,0.06);color:var(--text);font-weight:700}
-    .btn.primary{background:var(--accent);color:#001017}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-
-    /* Clock page */
-    .clock-face {display:grid;place-items:center;padding:26px;position:relative}
-    .time {font-weight:900;font-size:clamp(44px,9vw,96px);letter-spacing:0.5px}
-    .date {margin-top:8px;color:var(--muted);font-weight:700}
-    .fuzzy {margin-top:6px;font-style:italic;color:var(--muted)}
-
-    /* Alarms page */
-    .alarms-list {margin-top:12px;display:grid;gap:8px;max-height:320px;overflow:auto}
-    .alarm-item {display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-    .pill {padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700}
-
-    /* Stopwatch / Timer */
-    .big-time {font-weight:900;font-size:clamp(36px,7vw,76px);letter-spacing:0.6px}
-    .controls {display:flex;gap:10px;flex-wrap:wrap}
-
-    /* Footer */
-    footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
-
-    /* responsive */
-    @media(min-width:980px){
-      .sidebar{width:280px}
-      .overlay{display:none}
-    }
-    /* small helpers */
-    input, select {padding:10px;border-radius:8px;border:none;background:rgba(255,255,255,0.04);color:var(--text)}
-    .small{font-size:13px;color:var(--muted)}
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 <body data-theme="dark">
   <div class="app">
     <header>
       <div class="brand">
-        <div class="logo" aria-hidden></div>
+        <div class="logo" aria-hidden="true"></div>
         <div>
           <h1>ChronoQuest 🎮</h1>
           <p>Master your time — built to grow</p>
@@ -108,6 +26,59 @@
     </header>
 
     <main>
+      <!-- Welcome / Introduction Section -->
+<section id="welcome" class="page active">
+  <div class="card" style="text-align:center; padding:24px;">
+    <h2>Welcome to ChronoQuest 🎮</h2>
+    <p class="small" style="margin-top:12px;">
+      Master your time, track your focus, and gamify your productivity. ChronoQuest helps you stay on top of your day, one session at a time.
+    </p>
+
+    <div style="margin-top:20px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+      <h3>What you’ll find here:</h3>
+      <ul style="line-height:1.6">
+        <li><strong>Clock:</strong> Keep track of the current time with optional 24h or fuzzy display.</li>
+        <li><strong>Alarms:</strong> Set up to 10 alarms, including voice commands.</li>
+        <li><strong>Stopwatch:</strong> Measure elapsed time with lap functionality.</li>
+        <li><strong>Timer / Focus Sessions:</strong> Set focus sessions and earn points when completed.</li>
+        <li><strong>Daily Goals:</strong> Track how many focus sessions you complete each day.</li>
+      </ul>
+
+      <p style="margin-top:16px; font-weight:bold;">
+        Tip: Use voice commands (🎤) to add alarms quickly — works best in Chrome!
+      </p>
+    </div>
+
+    <div style="margin-top:24px;">
+      <button class="btn primary" data-target-nav="timer">Start Your First Focus Session</button>
+    </div>
+  </div>
+</section>
+
+
+      <!-- Daily Goals Page -->
+      <section id="goals" class="page">
+        <div class="card">
+          <h2>🎯 Daily Goal</h2>
+
+          <!-- Set goal -->
+          <div class="row" style="margin-top:12px;">
+            <label for="dailyGoalInput">Set Goal (sessions):</label>
+            <input type="number" id="dailyGoalInput" min="1" placeholder="e.g. 4">
+            <button id="saveGoalBtn" class="btn primary">Save</button>
+          </div>
+
+          <!-- Progress -->
+          <div id="goalProgress" style="margin-top:20px;">
+            <p><strong>Progress:</strong></p>
+            <p id="progressText">0 / 0 sessions completed</p>
+            <div style="background:rgba(255,255,255,0.1);height:12px;border-radius:6px;overflow:hidden;">
+              <div id="progressBar" style="height:100%;width:0;background:var(--accent);"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div id="overlay" class="overlay" onclick="toggleSidebar(false)"></div>
 
       <aside id="sidebar" class="sidebar" aria-hidden>
@@ -124,6 +95,7 @@
           <button data-target="clock" class="nav-btn"><span class="icon">⏰</span><span>Clock</span></button>
           <button data-target="alarms" class="nav-btn"><span class="icon">🔔</span><span>Alarms</span></button>
           <button data-target="stopwatch" class="nav-btn"><span class="icon">⏱️</span><span>Stopwatch</span></button>
+          <button data-target="goals" class="nav-btn"><span class="icon">🎯</span><span>Daily Goals</span></button>
           <button data-target="timer" class="nav-btn"><span class="icon">⏳</span><span>Timer</span></button>
           <button data-target="about" class="nav-btn"><span class="icon">👨‍💻</span><span>About</span></button>
           <button data-target="donate" class="nav-btn"><span class="icon">❤️</span><span>Donate</span></button>
@@ -163,7 +135,6 @@
                 <div style="font-weight:800;font-size:20px">Quick Stats</div>
                 <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
                   <div style="text-align:center"><div style="font-weight:900" id="statPoints">0</div><div class="small">Points</div></div>
-                  <div style="text-align:center"><div style="font-weight:900" id="statSessions">0</div><div class="small">Sessions</div></div>
                   <div style="text-align:center"><div style="font-weight:900" id="statAlarms">0</div><div class="small">Alarms</div></div>
                 </div>
                 <div class="small" style="margin-top:12px">Tip: Use voice to add alarms (🎤) — works best in Chrome.</div>
@@ -220,6 +191,10 @@
                 <div style="font-weight:800">Alarms</div>
                 <div class="small">Up to 10 alarms. Voice input supported.</div>
               </div>
+              <audio id="audio-custom-alarm" preload="auto"></audio>
+              <input type="file" id="uploadAlarm" accept="audio/*" style="display:none">
+              <button id="uploadAlarmBtn">Upload Alarm Sound</button>
+
               <div class="row">
                 <button class="btn" id="voiceBtn">🎤 Voice</button>
                 <div class="small pill" id="alarmCountPill">0 / 10</div>
@@ -229,7 +204,10 @@
             <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
               <input type="time" id="alarmTimeInput">
               <input type="text" id="alarmLabelInput" placeholder="Label (optional)">
-              <select id="alarmRepeatInput"><option value="once">Once</option><option value="daily">Daily</option></select>
+              <select id="alarmRepeatInput">
+                <option value="once">Once</option>
+                <option value="daily">Daily</option>
+              </select>
               <button class="btn primary" id="addAlarmBtn">Add Alarm</button>
             </div>
 
@@ -255,7 +233,6 @@
               <div style="font-weight:800">Gamification</div>
               <div class="small" style="margin-top:8px">Earn points for focused time. Stopwatch awards 1 point every 5 minutes.</div>
               <div style="margin-top:12px" class="small">Points: <strong id="pointsCount">0</strong></div>
-              <div class="small" style="margin-top:8px">Sessions: <strong id="sessionsCount">0</strong></div>
             </div>
           </div>
         </article>
@@ -280,8 +257,6 @@
             <div class="card">
               <div style="font-weight:800">Gamification</div>
               <div class="small" style="margin-top:8px">Complete a Focus session to earn points. Points saved locally.</div>
-              <div style="margin-top:12px" class="small">Current Points: <strong id="pointsCount2">0</strong></div>
-              <div class="small" style="margin-top:8px">Total Sessions: <strong id="sessionsCount2">0</strong></div>
             </div>
           </div>
         </article>
@@ -323,414 +298,36 @@
   <audio id="audio-alarm" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
   <audio id="audio-ding" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
   <audio id="audio-reward" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
+  <script src="index.js"></script>
+<script>
+// ---------- Welcome Section for First-Time Users ----------
+const WELCOME_KEY = 'chronoquest:seenWelcome';
+const welcomeSection = document.getElementById('welcome');
 
-  <script>
-  /*************************************************************************
-   * ChronoQuest — Single file app script
-   * Features:
-   * - Overlay sidebar navigation (icons + inline labels)
-   * - Clock (12/24, seconds toggle, fuzzy), manual time option
-   * - Alarms: up to 10, daily/once, add by voice (Web Speech API), list, enable/disable/delete
-   * - Stopwatch (laps optional) & Timer — gamified points stored in localStorage
-   * - Theme (dark/light) + background color picker
-   * - Sound effects: alarm, ding, reward
-   * - PWA install flow (install prompt handled)
-   *************************************************************************/
+// Check if the user has already seen the welcome
+if (!localStorage.getItem(WELCOME_KEY)) {
+  // Show welcome
+  welcomeSection.classList.add('active');
+} else {
+  // Skip welcome for returning users
+  welcomeSection.classList.remove('active');
+  // Activate the home page instead
+  activatePage('home');
+}
 
-  // ---------- State & Persistence ----------
-  const LS_KEY = 'chronoquest:v1';
-  const state = {
-    is24: true,
-    showSeconds: true,
-    fuzzy: false,
-    useManual: false,
-    manualIso: null, // ISO string
-    alarms: [],      // {id, timeHHMM, label, repeat, enabled}
-    points: 0,
-    sessions: 0,
-    bg: null,
-    theme: 'dark'
-  };
-  function loadState(){
-    try{ const raw = localStorage.getItem(LS_KEY); if(raw) Object.assign(state, JSON.parse(raw)); }catch(e){}
-  }
-  function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); renderStats(); renderAlarms(); }
-  loadState();
+// Handle "Start Your First Focus Session" button
+welcomeSection.querySelector('button[data-target-nav]')?.addEventListener('click', (e) => {
+  // Mark as seen
+  localStorage.setItem(WELCOME_KEY, 'true');
+  // Hide welcome
+  welcomeSection.classList.remove('active');
+  // Navigate to target page (Timer)
+  const target = e.target.dataset.targetNav;
+  if (target) activatePage(target);
+});
+</script>
+</body>
+</html>
 
-  // ---------- DOM shortcuts ----------
-  const $ = sel => document.querySelector(sel);
-  const $$ = sel => Array.from(document.querySelectorAll(sel));
-
-  // ---------- Navigation & sidebar ----------
-  const sidebar = $('#sidebar'), overlay = $('#overlay'), hambBtn = $('#hambBtn');
-  function toggleSidebar(open){
-    if(open === undefined) open = !sidebar.classList.contains('open');
-    sidebar.classList.toggle('open', open);
-    overlay.classList.toggle('show', open);
-    sidebar.setAttribute('aria-hidden', !open);
-  }
-  hambBtn.addEventListener('click', ()=>toggleSidebar(true));
-  overlay.addEventListener('click', ()=>toggleSidebar(false));
-
-  // nav buttons
-  $$('.nav button').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const t = btn.dataset.target;
-      activatePage(t);
-      toggleSidebar(false);
-    });
-  });
-  // home quick links
-  $$('[data-target-nav]').forEach(b=>{
-    b.addEventListener('click', ()=>activatePage(b.dataset.targetNav));
-  });
-
-  function activatePage(id){
-    $$('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.target===id));
-    $$('.page').forEach(p=>p.classList.toggle('active', p.id===id));
-    // small focus
-    const el = document.getElementById(id);
-    if(el) el.scrollTop = 0;
-  }
-
-  // ---------- Clock ----------
-  const timeDisplay = $('#timeDisplay'), dateDisplay = $('#dateDisplay'), fuzzyDisplay = $('#fuzzyDisplay');
-  function pad(n){ return String(n).padStart(2,'0'); }
-  function fuzzyTime(d){
-    const h = d.getHours(), m = d.getMinutes();
-    const names = ["twelve","one","two","three","four","five","six","seven","eight","nine","ten","eleven"];
-    const hName = names[h%12], nextName = names[(h+1)%12];
-    if(m===0) return `${hName} o'clock`;
-    if(m===15) return `quarter past ${hName}`;
-    if(m===30) return `half past ${hName}`;
-    if(m===45) return `quarter to ${nextName}`;
-    if(m<30) return `${m} past ${hName}`;
-    return `${60-m} to ${nextName}`;
-  }
-
-  function getNow(){
-    if(state.useManual && state.manualIso){
-      // manualIso is string - advance each second in render
-      return new Date(state.manualIso);
-    }
-    return new Date();
-  }
-
-  function advanceManualByOneSecond(){
-    if(state.useManual && state.manualIso){
-      const d = new Date(state.manualIso);
-      d.setSeconds(d.getSeconds()+1);
-      state.manualIso = d.toISOString();
-      saveState();
-    }
-  }
-
-  function renderClock(){
-    // advance manual if using
-    if(state.useManual) advanceManualByOneSecond();
-
-    const now = getNow();
-    let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-    let displayH = h, suffix = '';
-    if(!state.is24){ suffix = h>=12 ? ' PM':' AM'; displayH = h%12||12; }
-    const secPart = state.showSeconds ? ':'+pad(s) : '';
-    timeDisplay.textContent = `${pad(displayH)}:${pad(m)}${secPart}${suffix}`;
-    dateDisplay.textContent = now.toLocaleDateString(undefined, {weekday:'long', year:'numeric', month:'short', day:'numeric'});
-    fuzzyDisplay.textContent = state.fuzzy ? '≈ ' + fuzzyTime(now) : '';
-    checkAlarms(now);
-  }
-
-  // one second tick
-  renderClock();
-  setInterval(renderClock, 1000);
-
-  // clock controls
-  $('#toggle24').addEventListener('click', ()=>{ state.is24 = !state.is24; saveState(); renderClock(); });
-  $('#toggleFuzzy').addEventListener('click', ()=>{ state.fuzzy = !state.fuzzy; saveState(); renderClock(); });
-  $('#showSeconds').addEventListener('change', (e)=>{ state.showSeconds = e.target.checked; saveState(); renderClock(); });
-  $('#useManual').addEventListener('change', (e)=>{ state.useManual = e.target.checked; if(!state.useManual) state.manualIso = null; saveState(); });
-  $('#applyManual').addEventListener('click', ()=>{
-    let hh = parseInt($('#manualH').value || '0',10), mm = parseInt($('#manualM').value || '0',10), ss = parseInt($('#manualS').value || '0',10);
-    hh = Math.max(0,Math.min(23,hh)); mm = Math.max(0,Math.min(59,mm)); ss = Math.max(0,Math.min(59,ss));
-    const d = new Date(); d.setHours(hh,mm,ss,0); state.manualIso = d.toISOString(); state.useManual = true; $('#useManual').checked = true; saveState(); renderClock();
-  });
-
-  // ---------- Alarms ----------
-  function uid(){ return crypto?.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()).replace('.',''); }
-  function renderAlarms(){
-    const list = $('#alarmsList'); list.innerHTML = '';
-    state.alarms.forEach((a, idx)=>{
-      const el = document.createElement('div'); el.className='alarm-item';
-      el.innerHTML = `<div><strong>${a.timeHHMM}</strong> &nbsp; <span class="small">${a.label||'Alarm'}</span></div>`;
-      const right = document.createElement('div');
-      const toggle = document.createElement('button'); toggle.className='btn'; toggle.textContent = a.enabled ? 'On':'Off';
-      toggle.addEventListener('click', ()=>{ a.enabled = !a.enabled; saveState(); });
-      const del = document.createElement('button'); del.className='btn danger'; del.textContent='Delete';
-      del.addEventListener('click', ()=>{ state.alarms = state.alarms.filter(x=>x.id!==a.id); saveState(); renderAlarms(); });
-      right.append(toggle, del);
-      el.append(right);
-      list.appendChild(el);
-    });
-    $('#alarmCountPill').textContent = `${state.alarms.length} / 10`;
-    $('#statAlarms').textContent = state.alarms.length;
-  }
-
-  function addAlarm(timeHHMM, label='', repeat='once'){
-    if(!timeHHMM) return alert('Pick time');
-    if(state.alarms.length >= 10) return alert('Max 10 alarms reached');
-    state.alarms.push({ id: uid(), timeHHMM, label, repeat, enabled:true });
-    saveState(); renderAlarms();
-  }
-
-  $('#addAlarmBtn').addEventListener('click', ()=>{
-    addAlarm($('#alarmTimeInput').value, $('#alarmLabelInput').value.trim(), $('#alarmRepeatInput').value);
-    $('#alarmLabelInput').value=''; $('#alarmTimeInput').value='';
-  });
-
-  function hhmmFromDate(d){ return pad(d.getHours())+':'+pad(d.getMinutes()); }
-
-  function checkAlarms(now){
-    const cur = hhmmFromDate(now);
-    // trigger only when seconds === 0 to avoid double triggers within minute
-    if(now.getSeconds() !== 0) return;
-    state.alarms.forEach(a=>{
-      if(!a.enabled) return;
-      if(a.timeHHMM === cur){
-        // fire
-        try{ $('#audio-alarm').currentTime = 0; $('#audio-alarm').play(); }catch(e){}
-        navigator.vibrate?.([200,100,200]);
-        alert(`⏰ ${a.label || 'Alarm'} — ${a.timeHHMM}`);
-        if(a.repeat === 'once'){ a.enabled = false; saveState(); renderAlarms(); }
-      }
-    });
-  }
-
-  renderAlarms();
-
-  // ---------- Voice alarm (Web Speech API) ----------
-  let recognition = null;
-  if(window.SpeechRecognition || window.webkitSpeechRecognition){
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SR();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-  }
-
-  $('#voiceBtn').addEventListener('click', ()=>{
-    if(!recognition) return alert('Voice not supported in this browser. Use Chrome for best results.');
-    $('#voiceBtn').textContent = 'Listening...';
-    recognition.start();
-    recognition.onresult = (ev)=>{
-      const phrase = ev.results[0][0].transcript.trim();
-      parseVoiceAlarm(phrase);
-      $('#voiceBtn').textContent = '🎤 Voice';
-    };
-    recognition.onend = ()=>{ $('#voiceBtn').textContent = '🎤 Voice'; };
-    recognition.onerror = (e)=>{ $('#voiceBtn').textContent = '🎤 Voice'; alert('Voice error'); };
-  });
-
-  function parseVoiceAlarm(phrase){
-    const p = phrase.toLowerCase();
-    const regexes = [
-      /(\d{1,2}[:.]\d{2})\s*(am|pm)?/,           // 7:30 or 7:30 am
-      /(\d{1,2})\s*(am|pm)/,                     // 7 am
-      /(\d{1,2})\s+(\d{2})/                      // 19 00
-    ];
-    let timeFound=null, ampm=null;
-    for(const re of regexes){
-      const m = p.match(re);
-      if(m){ timeFound = m[1]; if(m[2] && (m[2]==='am'||m[2]==='pm')) ampm = m[2]; break; }
-    }
-    if(!timeFound){ alert("Couldn't parse time from: " + phrase); return; }
-    let hour=0, minute=0;
-    if(timeFound.includes(':')||timeFound.includes('.')){
-      const parts = timeFound.split(/[:.]/); hour=parseInt(parts[0],10); minute=parseInt(parts[1],10);
-    } else { hour = parseInt(timeFound,10); minute = 0; }
-    if(ampm){
-      if(ampm==='pm' && hour<12) hour+=12;
-      if(ampm==='am' && hour===12) hour = 0;
-    }
-    hour = Math.max(0,Math.min(23,hour)); minute = Math.max(0,Math.min(59,minute));
-    const hhmm = pad(hour)+':'+pad(minute);
-    // label extraction
-    let label = '';
-    const forMatch = p.match(/for\s+(.+)/);
-    if(forMatch){ label = forMatch[1].replace(/\b(am|pm)\b/,'').trim(); }
-    else {
-      label = p.replace(timeFound,'').replace(/set alarm|set an alarm|alarm|at|for/gi,'').trim();
-    }
-    if(label.length>40) label = label.slice(0,40)+'...';
-    addAlarm(hhmm, label||'Voice Alarm', 'once');
-    alert(`Voice alarm set: ${hhmm} ${label?'- '+label:''}`);
-  }
-
-  // ---------- Stopwatch ----------
-  let swRunning=false, swStart=0, swElapsed=0, swRAF=null;
-  function fmtMs(ms){
-    const total = Math.max(0, Math.floor(ms));
-    const sTotal = Math.floor(total/1000);
-    const m = Math.floor(sTotal/60);
-    const s = sTotal%60;
-    const ms3 = total%1000;
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms3).padStart(3,'0')}`;
-  }
-  function swTick(){
-    if(!swRunning) return;
-    const now = performance.now();
-    const elapsed = swElapsed + (now - swStart);
-    $('#swDisplay').textContent = fmtMs(elapsed);
-    swRAF = requestAnimationFrame(swTick);
-  }
-
-  $('#swStartBtn').addEventListener('click', ()=>{
-    if(swRunning) return;
-    swRunning=true; swStart = performance.now(); $('#swStartBtn').disabled=true; $('#swLapBtn').disabled=false; $('#swStopBtn').disabled=false; $('#swResetBtn').disabled=true;
-    swTick();
-  });
-  $('#swLapBtn').addEventListener('click', ()=>{
-    if(!swRunning) return;
-    const now = performance.now(); const elapsed = swElapsed + (now - swStart);
-    const div = document.createElement('div'); div.className='small'; div.textContent = `Lap ${Date.now()%1000} — ${fmtMs(elapsed)}`;
-    $('#swLaps').prepend(div);
-    playSound('ding');
-  });
-  $('#swStopBtn').addEventListener('click', ()=>{
-    if(!swRunning) return;
-    swRunning=false; cancelAnimationFrame(swRAF); swElapsed += (performance.now() - swStart);
-    $('#swStartBtn').disabled=false; $('#swLapBtn').disabled=true; $('#swStopBtn').disabled=true; $('#swResetBtn').disabled=false;
-  });
-  $('#swResetBtn').addEventListener('click', ()=>{
-    swRunning=false; cancelAnimationFrame(swRAF); swElapsed=0; swStart=0; $('#swDisplay').textContent='00:00.000'; $('#swLaps').innerHTML=''; $('#swStartBtn').disabled=false; $('#swLapBtn').disabled=true; $('#swStopBtn').disabled=true; $('#swResetBtn').disabled=true;
-  });
-
-  // award point every full 5 minutes of stopwatch (handled in tick)
-  setInterval(()=>{
-    if(swRunning){
-      const now = performance.now();
-      const elapsed = swElapsed + (now - swStart);
-      const minutes = Math.floor(elapsed/60000);
-      if(minutes>0 && (elapsed % 300000) < 1000){ // approximately at 5,10,15...
-        awardPoint();
-      }
-    }
-  }, 1000);
-
-  // ---------- Timer ----------
-  let timerId = null, timerRemaining = 0;
-  function renderTimer(){
-    const totalSec = Math.max(0, Math.ceil(timerRemaining/1000));
-    const m = Math.floor(totalSec/60); const s = totalSec%60;
-    $('#timerDisplay').textContent = `${pad(m)}:${pad(s)}`;
-  }
-  $('#timerStartBtn').addEventListener('click', ()=>{
-    const min = parseInt($('#timerMinInput').value||'0',10) || 0;
-    const sec = parseInt($('#timerSecInput').value||'0',10) || 0;
-    let total = min*60 + sec;
-    if(total<=0 && timerRemaining<=0) return alert('Set duration');
-    if(timerRemaining<=0) timerRemaining = total*1000;
-    if(timerId) return;
-    timerId = setInterval(()=>{
-      timerRemaining -= 250;
-      renderTimer();
-      if(timerRemaining <= 0){
-        clearInterval(timerId); timerId=null; timerRemaining=0; renderTimer();
-        try{ $('#audio-alarm').currentTime = 0; $('#audio-alarm').play(); }catch(e){}
-        navigator.vibrate?.([200,100,200]);
-        if($('#focusMode').checked) { awardPoint(true); }
-        $('#timerStartBtn').disabled=false; $('#timerPauseBtn').disabled=true; $('#timerResetBtn').disabled=false;
-      }
-    }, 250);
-    $('#timerStartBtn').disabled=true; $('#timerPauseBtn').disabled=false; $('#timerResetBtn').disabled=false;
-  });
-  $('#timerPauseBtn').addEventListener('click', ()=>{
-    clearInterval(timerId); timerId=null; $('#timerStartBtn').disabled=false; $('#timerPauseBtn').disabled=true;
-  });
-  $('#timerResetBtn').addEventListener('click', ()=>{
-    clearInterval(timerId); timerId=null; timerRemaining=0; renderTimer(); $('#timerStartBtn').disabled=false; $('#timerPauseBtn').disabled=true; $('#timerResetBtn').disabled=true;
-  });
-
-  // ---------- Points & gamification ----------
-  function awardPoint(fromTimer=false){
-    // to avoid spamming, award only once per event — we keep it simple
-    state.points = (state.points||0) + 1;
-    if(fromTimer) state.sessions = (state.sessions||0) + 1;
-    saveState();
-    playSound('reward');
-    renderStats();
-  }
-  function renderStats(){
-    $('#statPoints').textContent = state.points || 0;
-    $('#statSessions').textContent = state.sessions || 0;
-    $('#pointsCount').textContent = state.points || 0;
-    $('#pointsCount2').textContent = state.points || 0;
-    $('#sessionsCount').textContent = state.sessions || 0;
-    $('#sessionsCount2').textContent = state.sessions || 0;
-  }
-  renderStats();
-
-  // ---------- Sounds ----------
-  function playSound(name){
-    try{
-      if(name==='ding'){ $('#audio-ding').currentTime = 0; $('#audio-ding').play(); }
-      if(name==='reward'){ $('#audio-reward').currentTime = 0; $('#audio-reward').play(); }
-    }catch(e){}
-  }
-
-  // ---------- Background picker & theme ----------
-  function openBgPicker(){
-    const color = prompt('Enter background CSS color or hex (example: #e8f5e9 or linear-gradient(...))', state.bg || '');
-    if(color !== null){
-      state.bg = color || null;
-      applyBg();
-      saveState();
-    }
-  }
-  function applyBg(){
-    if(state.bg){
-      document.documentElement.style.setProperty('--bg2', state.bg);
-    } else {
-      document.documentElement.style.removeProperty('--bg2');
-    }
-  }
-  function setTheme(t){
-    state.theme = t;
-    if(t==='light') document.body.setAttribute('data-theme','light'); else document.body.setAttribute('data-theme','dark');
-    saveState();
-  }
-  applyBg();
-  setTheme(state.theme);
-
-  // ---------- Install prompt ----------
-  let deferredInstallPrompt = null;
-  window.addEventListener('beforeinstallprompt', (e)=>{
-    e.preventDefault();
-    deferredInstallPrompt = e;
-    $('#installBtn').style.display = 'inline-block';
-  });
-  $('#installBtn').addEventListener('click', async ()=>{
-    if(!deferredInstallPrompt) return;
-    deferredInstallPrompt.prompt();
-    const choice = await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    $('#installBtn').style.display = 'none';
-  });
-
-  // ---------- Persistence init ----------
-  if(state.manualIso) $('#manualH').value = new Date(state.manualIso).getHours();
-  if(state.manualIso) $('#manualM').value = new Date(state.manualIso).getMinutes();
-  if(state.manualIso) $('#manualS').value = new Date(state.manualIso).getSeconds();
-  renderAlarms();
-  renderStats();
-
-  // ---------- PWA Service Worker Registration ----------
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{ /* ignore */ });
-  }
-
-  // ---------- Utility: expose for debugging (optional) ----------
-  window.__CQ = { state, saveState, addAlarm };
-
-  </script>
 </body>
 </html>
