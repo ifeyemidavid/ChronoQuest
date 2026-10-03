@@ -1,6 +1,7 @@
 // ---------- State & Persistence ----------
 const LS_KEY = 'chronoquest:v1';
 const FOCUS_SESSIONS_KEY = 'chronoquest:focusSessions';
+const FOCUS_MINUTES_KEY = 'chronoquest:focusMinutes';
 const state = {
   is24: true,
   showSeconds: true,
@@ -303,6 +304,7 @@ $('#swResetBtn').addEventListener('click', ()=>{
 
 // ---------- Timer ----------
 let timerId = null, timerRemaining = 0;
+let currentFocusMinutes = 0;
 function renderTimer(){
   const totalSec = Math.max(0, Math.ceil(timerRemaining/1000));
   const m = Math.floor(totalSec/60); const s = totalSec%60;
@@ -321,8 +323,18 @@ $('#timerStartBtn').addEventListener('click', ()=>{
   const sec = parseInt($('#timerSecInput').value||'0',10) || 0;
   let total = min*60 + sec;
   if(total<=0 && timerRemaining<=0) return alert('Set duration');
-  if(timerRemaining<=0) timerRemaining = total*1000;
-  if(timerId) return;
+if(timerRemaining<=0) {
+  timerRemaining = total*1000;
+  currentFocusMinutes = Math.ceil(total / 60);
+}
+
+if(timerId) return;
+
+const minutes = Number(localStorage.getItem(FOCUS_MINUTES_KEY) || 0);
+localStorage.setItem(
+  FOCUS_MINUTES_KEY,
+  minutes + currentFocusMinutes
+);
   timerId = setInterval(()=>{
     timerRemaining -= 250;
     renderTimer();
@@ -364,6 +376,22 @@ function awardPoint(fromTimer=false){
 function renderStats(){
   $('#statPoints').textContent = state.points || 0;
   $('#pointsCount').textContent = state.points || 0;
+  const focusMinutes = Number(
+  localStorage.getItem(FOCUS_MINUTES_KEY) || 0
+);
+
+const dailyGoals = JSON.parse(
+  localStorage.getItem('cq:dailyGoals') || '{"completed":0,"target":0}'
+);
+
+const goalPercent = dailyGoals.target
+  ? Math.min(100, Math.round((dailyGoals.completed / dailyGoals.target) * 100))
+  : 0;
+
+$('#dashboardSessions').textContent = focusSessions;
+$('#dashboardMinutes').textContent = focusMinutes;
+$('#dashboardPoints').textContent = state.points || 0;
+$('#dashboardGoal').textContent = `${goalPercent}%`;
 }
 const focusSessions = Number(
   localStorage.getItem(FOCUS_SESSIONS_KEY) || 0
