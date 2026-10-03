@@ -308,6 +308,14 @@ function renderTimer(){
   const m = Math.floor(totalSec/60); const s = totalSec%60;
   $('#timerDisplay').textContent = `${pad(m)}:${pad(s)}`;
 }
+$('#timerPreset').addEventListener('change', (e) => {
+  const minutes = Number(e.target.value);
+
+  if (!minutes) return;
+
+  $('#timerMinInput').value = minutes;
+  $('#timerSecInput').value = 0;
+});
 $('#timerStartBtn').addEventListener('click', ()=>{
   const min = parseInt($('#timerMinInput').value||'0',10) || 0;
   const sec = parseInt($('#timerSecInput').value||'0',10) || 0;
@@ -357,6 +365,11 @@ function renderStats(){
   $('#statPoints').textContent = state.points || 0;
   $('#pointsCount').textContent = state.points || 0;
 }
+const focusSessions = Number(
+  localStorage.getItem(FOCUS_SESSIONS_KEY) || 0
+);
+
+$('#statFocusSessions').textContent = focusSessions;
 renderStats();
 
 // ---------- Sounds ----------
