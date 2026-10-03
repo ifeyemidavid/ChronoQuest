@@ -133,12 +133,52 @@
             <div style="min-width:240px;text-align:center">
               <div class="card" style="padding:18px">
                 <div style="font-weight:800;font-size:20px">Quick Stats</div>
-                <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
-                  <div style="text-align:center"><div style="font-weight:900" id="statPoints">0</div><div class="small">Points</div></div>
-                  <div style="text-align:center"><div style="font-weight:900" id="statAlarms">0</div><div class="small">Alarms</div></div>
-                </div>
+<div style="display:flex;gap:18px;justify-content:center;margin-top:12px">
+  <div style="text-align:center">
+    <div style="font-weight:900" id="statPoints">0</div>
+    <div class="small">Points</div>
+  </div>
+
+  <div style="text-align:center">
+    <div style="font-weight:900" id="statAlarms">0</div>
+    <div class="small">Alarms</div>
+  </div>
+
+  <div style="text-align:center">
+    <div style="font-weight:900" id="statFocusSessions">0</div>
+    <div class="small">Focus Sessions</div>
+  </div>
+</div>
                 <div class="small" style="margin-top:12px">Tip: Use voice to add alarms (🎤) — works best in Chrome.</div>
               </div>
+              <div class="card" style="margin-top:18px">
+  <div style="font-weight:800;font-size:20px">Productivity Dashboard</div>
+  <div class="small" style="margin-top:6px">
+    Track your progress and stay consistent.
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px">
+    <div class="card" style="padding:14px">
+      <div class="small">Focus Sessions</div>
+      <div style="font-size:24px;font-weight:900" id="dashboardSessions">0</div>
+    </div>
+
+    <div class="card" style="padding:14px">
+      <div class="small">Focus Minutes</div>
+      <div style="font-size:24px;font-weight:900" id="dashboardMinutes">0</div>
+    </div>
+
+    <div class="card" style="padding:14px">
+      <div class="small">Points</div>
+      <div style="font-size:24px;font-weight:900" id="dashboardPoints">0</div>
+    </div>
+
+    <div class="card" style="padding:14px">
+      <div class="small">Daily Goal</div>
+      <div style="font-size:24px;font-weight:900" id="dashboardGoal">0%</div>
+    </div>
+  </div>
+</div>
             </div>
           </div>
         </article>
@@ -246,6 +286,12 @@
                 <input type="number" id="timerMinInput" placeholder="Min" style="width:100px">
                 <input type="number" id="timerSecInput" placeholder="Sec" style="width:100px">
                 <label class="small"><input type="checkbox" id="focusMode" checked> Focus (earn points)</label>
+                <select id="timerPreset">
+  <option value="">Preset</option>
+  <option value="25">Pomodoro — 25 min</option>
+  <option value="50">Deep Focus — 50 min</option>
+  <option value="5">Short Break — 5 min</option>
+</select>
               </div>
               <div class="controls" style="justify-content:center;margin-top:12px">
                 <button class="btn primary" id="timerStartBtn">Start</button>
@@ -267,11 +313,22 @@
             <h3>About ChronoQuest</h3>
             <p class="small">ChronoQuest — Chrono = Time ⏳ • Quest = Adventure 🗺️. This app helps you build focus and make progress, one session at a time.</p>
             <hr style="opacity:.06">
-            <h4>About the Developer</h4>
-            <p><strong>Omosehin Ifeyemi</strong><br>
-              I am an undergraduate Software Engineering student at <strong>McPherson University</strong>. I love thinking big and turning ideas into reality with my fingers. This is my first official project as a 100-level developer. Thank you for using ChronoQuest — your support means a lot. More is coming! 🚀
-            </p>
-            <p class="small">Contact: <a href="mailto:omosehinifeyemi@gmail.com" style="color:var(--accent)"><strong>omosehinifeyemi@gmail.com</strong></a></p>
+          <h4>About the Developer</h4>
+<p>
+  <strong>Omosehin Ifeyemi</strong><br>
+  I am a Software Engineering student and developer interested in building practical digital products that solve real problems. ChronoQuest is a productivity-focused Progressive Web App built to help users manage time, maintain focus, and track their progress.
+</p>
+
+<p>
+  This project reflects my growth in JavaScript, web development, browser APIs, local data storage, and Progressive Web App development. I continue to improve ChronoQuest as I learn and build more advanced software.
+</p>
+
+<p class="small">
+  Contact: <a href="mailto:omosehinifeyemi@gmail.com" style="color:var(--accent)">
+    <strong>omosehinifeyemi@gmail.com</strong>
+  </a>
+</p>
+
           </div>
         </article>
 
@@ -291,7 +348,7 @@
       </section>
     </main>
 
-    <footer>© 2025 Omosehin Ifeyemi — Built to Grow</footer>
+    <footer>© 2026 Omosehin Ifeyemi — Built to Grow</footer>
   </div>
 
   <!-- Sounds -->
@@ -301,13 +358,6 @@
   <script src="index.js"></script>
 <script>
 
-  function activatePage(id) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show the page with the given ID
-  const page = document.getElementById(id);
-  if (page) page.classList.add('active');
-}
 
 // ---------- Welcome Section for First-Time Users ----------
 const WELCOME_KEY = 'chronoquest:seenWelcome';
@@ -335,8 +385,5 @@ welcomeSection.querySelector('button[data-target-nav]')?.addEventListener('click
   if (target) activatePage(target);
 });
 </script>
-</body>
-</html>
-
 </body>
 </html>
