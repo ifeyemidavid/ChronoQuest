@@ -1,5 +1,6 @@
 // ---------- State & Persistence ----------
 const LS_KEY = 'chronoquest:v1';
+const FOCUS_SESSIONS_KEY = 'chronoquest:focusSessions';
 const state = {
   is24: true,
   showSeconds: true,
@@ -322,7 +323,12 @@ $('#timerStartBtn').addEventListener('click', ()=>{
       // I keep your short alarm + vibration for timer completion
       playSound('alarm');
       navigator.vibrate?.([200,100,200]);
-      if($('#focusMode').checked) { awardPoint(true); }
+     if($('#focusMode').checked) {
+  awardPoint(true);
+
+  const sessions = Number(localStorage.getItem(FOCUS_SESSIONS_KEY) || 0);
+  localStorage.setItem(FOCUS_SESSIONS_KEY, sessions + 1);
+}
 
 // Count towards Daily Goals
 incrementDailyGoals('timer');

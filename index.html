@@ -301,13 +301,6 @@
   <script src="index.js"></script>
 <script>
 
-  function activatePage(id) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show the page with the given ID
-  const page = document.getElementById(id);
-  if (page) page.classList.add('active');
-}
 
 // ---------- Welcome Section for First-Time Users ----------
 const WELCOME_KEY = 'chronoquest:seenWelcome';
@@ -335,8 +328,5 @@ welcomeSection.querySelector('button[data-target-nav]')?.addEventListener('click
   if (target) activatePage(target);
 });
 </script>
-</body>
-</html>
-
 </body>
 </html>
